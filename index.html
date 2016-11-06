@@ -47,13 +47,15 @@ aside {
     <aside>
         <h2>Members</h2>
         <input id="nick" type="text" placeholder="What's your name?" size="13"/>
-        <button type="submit" id="sendNick" onClick="meuNick()">Set name</button>
+        <button type="submit" id="sendNick" onClick="myName()">Set name</button>
+        <ul id="ulist"></ul>
     </aside>
    
 
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
+      var usersList = [] 
       var socket = io();
       $('form').submit(function(){
         socket.emit('chat message', $('#m').val());
@@ -64,10 +66,29 @@ aside {
         $('#messages').append($('<li>').text(msg));
       });
 
-      function meuNick(){
-        socket.emit('nick', document.getElementById("nick").value);
+      socket.on('info', function(e){
+        $('#messages').append('<li><i>' + e + '</i></li>');
+      });
+
+      socket.on('users list', function(usersList){
+          updateUserList(usersList);
+      });
+
+      function myName(){
+        socket.emit('envia nick', document.getElementById("nick").value);
         document.getElementById("nick").disabled=true;
         document.getElementById("sendNick").hidden=true;
+      }
+
+      function updateUserList(u){
+        var list = document.getElementById("ulist");
+        list.innerHTML = "";
+
+        for (var i = 0; i < u.length; i++ ) {
+            var item = document.createElement("li");
+            item.innerHTML = u[i];
+            list.appendChild(item);
+        }
       }
     </script>
 
