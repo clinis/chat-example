@@ -3,21 +3,54 @@
   <head>
     <title>Socket.IO chat</title>
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      html { height: 100%; box-sizing: border-box; }
+      *, *:before, *:after { box-sizing: inherit; }
+      body { font: 13px Helvetica, Arial; margin: 0; min-height: 100%; display: flex; flex-flow: row wrap}
+      form { background: #000; bottom: 0; width: 100%; }
       form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
       form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
+#container{
+  display: flex;
+    flex-direction: column;
+    width: calc(100% - 250px);
+}
+section {
+    flex: 4;
+    background: deepskyblue;
+}
+footer {
+    flex: 1;
+    background: lightgreen;
+}
+aside {
+    background: hotpink;
+    flex: 1 250px;
+}
     </style>
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+    <div id="container">
+        <section>
+            <h2>Messages</h2>
+            <ul id="messages"></ul>
+        </section>
+        <footer>
+            <h2>Input</h2>
+            <form action="">
+                <input id="m" autocomplete="off" /><button>Send</button>
+            </form>
+        </footer>
+    </div>
+    <aside>
+        <h2>Members</h2>
+        <input id="nick" type="text" placeholder="What's your name?" size="13"/>
+        <button type="submit" id="sendNick" onClick="meuNick()">Set name</button>
+    </aside>
+   
+
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
@@ -30,6 +63,13 @@
       socket.on('chat message', function(msg){
         $('#messages').append($('<li>').text(msg));
       });
+
+      function meuNick(){
+        socket.emit('nick', document.getElementById("nick").value);
+        document.getElementById("nick").disabled=true;
+        document.getElementById("sendNick").hidden=true;
+      }
     </script>
+
   </body>
 </html>
