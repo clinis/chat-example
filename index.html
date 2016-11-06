@@ -57,6 +57,7 @@ aside {
     <script>
       var usersList = [];
       var myNick = "";
+      imTyping = false;
 
       var socket = io();
 
@@ -69,9 +70,11 @@ aside {
       });
 
       $('form').submit(function(){
-        var temp = [myNick , $("#m").val()];
+        var temp = [myNick , $("#boxMessage").val()];
         socket.emit("send chat message", temp);
-        $("#m").val("");
+        $("#boxMessage").val("");
+        imTyping = false;
+        socket.emit("not typing");
         return false;
       });
 
@@ -84,6 +87,10 @@ aside {
       });
 
       socket.on('users list', function(usersList){
+          updateUserList(usersList);
+      });
+
+      socket.on('typing signal', function(usersList){
           updateUserList(usersList);
       });
 
@@ -106,6 +113,18 @@ aside {
             list.appendChild(item);
         }
       }
+
+      $('#boxMessage').on('input', function() {
+        if ( $('#boxMessage').val().length != "" && imTyping == false ){
+            socket.emit("typing");
+            imTyping = true;
+        }
+        else if ( $('#boxMessage').val() == "" ) {
+            socket.emit("not typing");
+            imTyping = false;
+        }
+      });
+
     </script>
 
   </body>

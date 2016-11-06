@@ -13,6 +13,15 @@ function getUsersList(){
   return usersList;
 }
 
+function setUserTyping(index){
+  var usersList = [];
+    for (var i = 0; i < clients.length; i++){
+      usersList[i] = clients[i].n; 
+    }
+  usersList[index] = "💬 " + clients[index].n;
+  return usersList;
+}
+
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
@@ -35,6 +44,14 @@ io.on('connection', function(socket){
     io.emit('info', "New user: " + nick); //console.log(nick);
     clients[clients.indexOf(socket)].n = nick; //console.log(clients[clients.indexOf(socket)].n);
     io.emit('users list', getUsersList()); //console.log(getUsersList());
+  });
+
+  socket.on('typing', function(){
+    io.emit('typing signal', setUserTyping(clients.indexOf(socket))); //console.log(setUserTyping(clients.indexOf(socket)));
+  });
+
+  socket.on('not typing', function(){
+    io.emit('typing signal', getUsersList()); //console.log(getUsersList());
   });
 
   socket.on('disconnect', function() {
