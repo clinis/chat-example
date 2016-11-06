@@ -1,6 +1,7 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var ip = require("ip");
 
 var clients = [];
 var incr = 1;
@@ -68,5 +69,5 @@ io.on('connection', function(socket){
 });
 
 http.listen(3000, function(){
-  console.log('listening on *:3000');
+  console.log("listening on localhost:3000 and "+ip.address()+":3000");
 });
