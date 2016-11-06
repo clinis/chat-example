@@ -40,14 +40,14 @@ aside {
         <footer>
             <h2>Input</h2>
             <form action="">
-                <input id="m" autocomplete="off" /><button>Send</button>
+                <input id="boxMessage" autocomplete="off" disabled="true"/><button id="buttonMessage" disabled="true">Send</button>
             </form>
         </footer>
     </div>
     <aside>
         <h2>Members</h2>
-        <input id="nick" type="text" placeholder="What's your name?" size="13"/>
-        <button type="submit" id="sendNick" onClick="myName()">Set name</button>
+        <input id="boxNick" type="text" placeholder="What's your name?" size="13"/>
+        <button type="submit" id="buttonNick" onClick="setMyName()">Set name</button>
         <ul id="ulist"></ul>
     </aside>
    
@@ -55,29 +55,45 @@ aside {
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
-      var usersList = [] 
+      var usersList = [];
+      var myNick = "";
+
       var socket = io();
-      $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
-      socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
+
+      socket.on("connect", function(e){
+        socket.emit("start");
       });
 
-      socket.on('info', function(e){
-        $('#messages').append('<li><i>' + e + '</i></li>');
+      socket.on('nick', function(nick){
+        myNick=nick;
+      });
+
+      $('form').submit(function(){
+        var temp = [myNick , $("#m").val()];
+        socket.emit("send chat message", temp);
+        $("#m").val("");
+        return false;
+      });
+
+      socket.on('chat message', function(msg){
+        $("#messages").append("<li><b>"+msg[0]+":</b> "+msg[1]);
+      });
+
+      socket.on('info', function(inf){
+        $('#messages').append('<li><i>' + inf + '</i></li>');
       });
 
       socket.on('users list', function(usersList){
           updateUserList(usersList);
       });
 
-      function myName(){
-        socket.emit('envia nick', document.getElementById("nick").value);
-        document.getElementById("nick").disabled=true;
-        document.getElementById("sendNick").hidden=true;
+      function setMyName(){
+        myNick = document.getElementById("boxNick").value;
+        socket.emit("set nick", myNick);
+        document.getElementById("boxNick").disabled=true;
+        document.getElementById("buttonNick").hidden=true;
+        document.getElementById("boxMessage").disabled=false;
+        document.getElementById("buttonMessage").disabled=false;
       }
 
       function updateUserList(u){
