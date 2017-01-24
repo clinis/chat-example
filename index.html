@@ -7,15 +7,15 @@
       *, *:before, *:after { box-sizing: inherit; }
       body { font: 13px Helvetica, Arial; margin: 0; min-height: 100%; display: flex; flex-flow: row wrap}
       form { background: #000; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      form input { border: 0; padding: 10px; width: 80%; margin-right: .5%; }
+      form button { width: 19%; background: rgb(130, 224, 255); border: none; padding: 10px; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
 #container{
   display: flex;
     flex-direction: column;
-    width: calc(100% - 250px);
+    width: calc(100% - 150px);
 }
 section {
     flex: 4;
@@ -27,7 +27,7 @@ footer {
 }
 aside {
     background: hotpink;
-    flex: 1 250px;
+    flex: 1;
 }
     </style>
   </head>
@@ -46,11 +46,11 @@ aside {
     </div>
     <aside>
         <h2>Members</h2>
-        <input id="boxNick" type="text" placeholder="What's your name?" size="13"/>
-        <button type="submit" id="buttonNick" onClick="setMyName()">Set name</button>
+        <input id="boxNick" type="text" placeholder="your nickname?" size="13"/>
+        <button type="submit" id="buttonNick" onClick="setMyName()">Set</button>
         <ul id="ulist"></ul>
     </aside>
-   
+
 
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
