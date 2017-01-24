@@ -1,7 +1,24 @@
-# chat-example
+# Improved Socket.IO Chat Example
 
-This is the source code for a very simple chat example used for 
-the [Getting Started](http://socket.io/get-started/chat/) guide 
-of the Socket.IO website.
+Source code for a very simple Node.js chat application using [Socket.IO](http://socket.io).
 
-Please refer to it to learn how to run this application.
+This code is an improvement over the example [Getting Started guide](http://socket.io/get-started/chat/) on the Socket.IO website.
+From their website:
+> Homework
+>
+> Here are some ideas to improve the application:
+>
+> - [x] Broadcast a message to connected users when someone connects or disconnects
+> - [x] Add support for nicknames
+> - [ ] Don’t send the same message to the user that sent it himself. Instead, append the message directly as soon as he presses enter.
+> - [x] Add “{user} is typing” functionality
+> - [x] Show who’s online
+> - [ ] Add private messaging
+>
+> Share your improvements!
+
+The improvements are:
+- Users can set nicknames
+- List of online users
+- Typing indictor when user is typing
+- Broadcast message when someone connects or disconnects
