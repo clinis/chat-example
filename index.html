@@ -12,23 +12,35 @@
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
-#container{
-  display: flex;
-    flex-direction: column;
-    width: calc(100% - 150px);
-}
-section {
-    flex: 4;
-    background: deepskyblue;
-}
-footer {
-    flex: 1;
-    background: lightgreen;
-}
-aside {
-    background: hotpink;
-    flex: 1;
-}
+
+      #container{
+        display: flex;
+        flex-direction: column;
+        width: calc(100% - 200px);
+      }
+      section {
+        flex: 4;
+        background: deepskyblue;
+      }
+      footer {
+        flex: 1;
+        background: lightgreen;
+      }
+      aside {
+        background: hotpink;
+        flex: 1;
+      }
+      aside input {
+        border: 0;
+        padding: 10px;
+        width: 70%;
+      }
+      aside button {
+        width: 19%;
+        background: rgb(130, 224, 255);
+        border: none;
+        padding: 10px;
+      }
     </style>
   </head>
   <body>
@@ -45,10 +57,10 @@ aside {
         </footer>
     </div>
     <aside>
-        <h2>Members</h2>
-        <input id="boxNick" type="text" placeholder="your nickname?" size="13"/>
-        <button type="submit" id="buttonNick" onClick="setMyName()">Set</button>
-        <ul id="ulist"></ul>
+      <h2>Members</h2>
+      <input id="boxNick" type="text" placeholder="your nickname?" size="13"/>
+      <button type="submit" id="buttonNick" onClick="setMyName()">Set</button>
+      <ul id="ulist"></ul>
     </aside>
 
 
